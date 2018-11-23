@@ -26,6 +26,7 @@ import com.aijunhao.coolweather.model.net.bean.Forecast;
 import com.aijunhao.coolweather.model.net.bean.Weather;
 import com.aijunhao.coolweather.presenter.activity.WeatherActivityPresenter;
 import com.aijunhao.coolweather.service.AutoUpdateService;
+import com.aijunhao.coolweather.util.Constant;
 import com.aijunhao.coolweather.util.HttpUtil;
 import com.aijunhao.coolweather.util.Utility;
 import com.bumptech.glide.Glide;
@@ -125,7 +126,6 @@ public class WeatherActivity extends AppCompatActivity {
             Glide.with(this).load(bingPic).into(ivBingPic);
         } else {
             loadBingPic();
-//            getBingPic();
         }
     }
 
@@ -133,8 +133,7 @@ public class WeatherActivity extends AppCompatActivity {
      * 加载必应每日一图
      */
     private void loadBingPic() {
-        String requestBingPic = "http://guolin.tech/api/bing_pic";
-        presenter.getData(requestBingPic);
+        presenter.getData(Constant.BING_PIC_URL);
     }
 
     /**
@@ -157,30 +156,6 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
     }
-//    private void getBingPic(){
-//        String url = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
-//        HttpUtil.sendOkHttpRequest(url, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                final String bingPic = response.body().string();
-//                Log.d(TAG,"每日一图：" + bingPic);
-//                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-//                editor.putString("bing_pic", bingPic);
-//                editor.apply();
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Glide.with(WeatherActivity.this).load(bingPic).into(ivBingPic);
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     /**
      * 获取天气数据
@@ -218,7 +193,6 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
         loadBingPic();
-//        getBingPic();
     }
 
     /**
