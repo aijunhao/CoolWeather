@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".Activity.WeatherActivity">
+    tools:context=".ui.activity.WeatherActivity">
 
     <ImageView
         android:id="@+id/iv_bing_pic"
@@ -52,7 +52,7 @@
 
         <fragment
             android:id="@+id/fragment_choose_area"
-            android:name="com.aijunhao.coolweather.ChooseAreaFragment"
+            android:name="com.aijunhao.coolweather.ui.fragment.ChooseAreaFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"/>

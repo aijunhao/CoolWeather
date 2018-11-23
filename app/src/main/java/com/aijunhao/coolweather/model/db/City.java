@@ -1,4 +1,4 @@
-package com.aijunhao.coolweather.db;
+package com.aijunhao.coolweather.model.db;
 
 import org.litepal.crud.DataSupport;
 

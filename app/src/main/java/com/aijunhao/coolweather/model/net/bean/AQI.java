@@ -1,4 +1,4 @@
-package com.aijunhao.coolweather.gson;
+package com.aijunhao.coolweather.model.net.bean;
 
 /**
  * @Author Aijunhao

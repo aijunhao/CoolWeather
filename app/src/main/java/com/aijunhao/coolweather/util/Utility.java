@@ -1,22 +1,16 @@
 package com.aijunhao.coolweather.util;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.aijunhao.coolweather.db.City;
-import com.aijunhao.coolweather.db.County;
-import com.aijunhao.coolweather.db.Province;
-import com.aijunhao.coolweather.gson.Weather;
+import com.aijunhao.coolweather.model.db.City;
+import com.aijunhao.coolweather.model.db.County;
+import com.aijunhao.coolweather.model.db.Province;
+import com.aijunhao.coolweather.model.net.bean.Weather;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 /**
  * @Author Aijunhao

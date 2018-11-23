@@ -10,7 +10,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.aijunhao.coolweather.gson.Weather;
+import com.aijunhao.coolweather.model.net.bean.Weather;
 import com.aijunhao.coolweather.util.HttpUtil;
 import com.aijunhao.coolweather.util.Utility;
 

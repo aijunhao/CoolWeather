@@ -1,7 +1,8 @@
-package com.aijunhao.coolweather.Activity;
+package com.aijunhao.coolweather.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
@@ -19,14 +20,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aijunhao.coolweather.R;
-import com.aijunhao.coolweather.gson.Forecast;
-import com.aijunhao.coolweather.gson.Weather;
+import com.aijunhao.coolweather.dagger.component.activity.DaggerWeatherActivityComponent;
+import com.aijunhao.coolweather.dagger.module.activity.WeatherActivityModule;
+import com.aijunhao.coolweather.model.net.bean.Forecast;
+import com.aijunhao.coolweather.model.net.bean.Weather;
+import com.aijunhao.coolweather.presenter.activity.WeatherActivityPresenter;
 import com.aijunhao.coolweather.service.AutoUpdateService;
 import com.aijunhao.coolweather.util.HttpUtil;
 import com.aijunhao.coolweather.util.Utility;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,11 +78,16 @@ public class WeatherActivity extends AppCompatActivity {
 
     private String mWeatherId;
 
+    @Inject
+    WeatherActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         ButterKnife.bind(this);
+
+        DaggerWeatherActivityComponent.builder().weatherActivityModule(new WeatherActivityModule(this)).build().in(this);
 
         /**
          * 下拉刷新
@@ -114,6 +125,7 @@ public class WeatherActivity extends AppCompatActivity {
             Glide.with(this).load(bingPic).into(ivBingPic);
         } else {
             loadBingPic();
+//            getBingPic();
         }
     }
 
@@ -122,27 +134,53 @@ public class WeatherActivity extends AppCompatActivity {
      */
     private void loadBingPic() {
         String requestBingPic = "http://guolin.tech/api/bing_pic";
-        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
+        presenter.getData(requestBingPic);
+    }
 
+    /**
+     * 修改缓存
+     */
+    public void updateSharedPreferences(String key,String value){
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    /**
+     * 修改背景图片
+     */
+    public void updateBackground(final String value){
+        runOnUiThread(new Runnable() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String bingPic = response.body().string();
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-                editor.putString("bing_pic", bingPic);
-                editor.apply();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Glide.with(WeatherActivity.this).load(bingPic).into(ivBingPic);
-                    }
-                });
+            public void run() {
+                Glide.with(WeatherActivity.this).load(value).into(ivBingPic);
             }
         });
     }
+//    private void getBingPic(){
+//        String url = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";
+//        HttpUtil.sendOkHttpRequest(url, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                final String bingPic = response.body().string();
+//                Log.d(TAG,"每日一图：" + bingPic);
+//                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+//                editor.putString("bing_pic", bingPic);
+//                editor.apply();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Glide.with(WeatherActivity.this).load(bingPic).into(ivBingPic);
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     /**
      * 获取天气数据
@@ -169,6 +207,7 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
                             editor.apply();
+                            mWeatherId = weatherId;
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
@@ -179,6 +218,7 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
         loadBingPic();
+//        getBingPic();
     }
 
     /**

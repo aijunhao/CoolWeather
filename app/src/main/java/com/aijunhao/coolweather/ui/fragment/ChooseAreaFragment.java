@@ -1,4 +1,4 @@
-package com.aijunhao.coolweather;
+package com.aijunhao.coolweather.ui.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aijunhao.coolweather.Activity.WeatherActivity;
-import com.aijunhao.coolweather.db.City;
-import com.aijunhao.coolweather.db.County;
-import com.aijunhao.coolweather.db.Province;
+import com.aijunhao.coolweather.R;
+import com.aijunhao.coolweather.model.db.City;
+import com.aijunhao.coolweather.model.db.County;
+import com.aijunhao.coolweather.model.db.Province;
+import com.aijunhao.coolweather.ui.activity.MainActivity;
+import com.aijunhao.coolweather.ui.activity.WeatherActivity;
 import com.aijunhao.coolweather.util.HttpUtil;
 import com.aijunhao.coolweather.util.Utility;
-import com.bumptech.glide.GlideBuilder;
 
 import org.litepal.crud.DataSupport;
 
